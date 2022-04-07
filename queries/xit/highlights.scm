@@ -1,7 +1,5 @@
-(open_checkbox) @property
-(ongoing_task) @MoreMsg
-[
-  (checked_task)
-  (obsolete_task)
-] @comment
-(open_task (task_description (task_name) @property))
+(open_checkbox) @XitOpenCheckbox
+(ongoing_task) @XitOngoingTask
+(checked_task) @XitCheckedTask
+(obsolete_task) @XitObsoleteTask
+(open_task (task_description (task_name) @XitOpenTaskName))
