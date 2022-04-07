@@ -13,6 +13,7 @@ endif
 highlight default link XitOpenCheckbox Property
 highlight default link XitOngoingTask MoreMsg
 highlight default link XitCheckedTask Comment
+" TODO how to make XitObsoleteTask to use both comment style & strikethrough?
 highlight default link XitObsoleteTask Comment
 highlight XitObsoleteTask gui=strikethrough term=strikethrough
 highlight default link XitOpenTaskName Property
