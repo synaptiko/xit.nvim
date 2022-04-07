@@ -32,12 +32,12 @@ function xit.setup(options)
 	vim.api.nvim_create_autocmd("BufRead,BufNewFile,BufReadPost", {
 		group = group,
 		pattern = "*.xit",
-		eval = "set filetype=xit",
+		command = "set filetype=xit",
 	})
 	vim.api.nvim_create_autocmd('FileType', {
 		group = group,
 		pattern = "xit",
-		eval = "setlocal shiftwidth=4 softtabstop=4 expandtab",
+		command = "setlocal shiftwidth=4 softtabstop=4 expandtab",
 	})
 end
 
