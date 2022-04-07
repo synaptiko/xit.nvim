@@ -29,11 +29,15 @@ function xit.setup(options)
 	}
 
 	local group = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
-	vim.api.nvim_create_autocmd({
+	vim.api.nvim_create_autocmd("BufRead,BufNewFile,BufReadPost", {
 		group = group,
-		event = "BufRead,BufNewFile,BufReadPost",
 		pattern = "*.xit",
 		eval = "set filetype=xit",
+	})
+	vim.api.nvim_create_autocmd('FileType', {
+		group = group,
+		pattern = "xit",
+		eval = "setlocal shiftwidth=4 softtabstop=4 expandtab",
 	})
 end
 
