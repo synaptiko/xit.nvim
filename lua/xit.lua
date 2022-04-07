@@ -1,11 +1,5 @@
 local xit = {}
 
--- augroup xit_filetype
--- 	autocmd!
--- 	autocmd BufRead,BufNewFile,BufReadPost *.xit set filetype=xit
--- 	autocmd FileType xit setlocal shiftwidth=4 softtabstop=4 expandtab
--- augroup END
-
 local function with_defaults(options)
    return {
 			-- TODO not sure if I'll need any options, maybe eventually
