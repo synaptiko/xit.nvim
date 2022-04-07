@@ -20,7 +20,7 @@ then restart your nvim and run:
 
 and add to you lua config part:
 ```
-require("xit").setup
+require("xit").setup {}
 ```
 
 then restart once more and run:
@@ -33,8 +33,8 @@ then restart once more and run:
 
 - [x] Filetype & tree-sitter config
 - [ ] Add queries
-	- [ ] Indentation
-	- [ ] Basic highlighting
+	- [x] Indentation
+	- [x] Basic highlighting
 	- [ ] Group folding?
 - [ ] Keymap to create a new task
 - [ ] Keymap to toggle task status
