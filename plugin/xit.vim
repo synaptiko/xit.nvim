@@ -1,12 +1,6 @@
-if exists('g:loaded_xit')
-  finish
-endif
-let g:loaded_xit = 1
-
 let s:xit = luaeval('require("xit")')
 
-augroup xit_filetype
-	autocmd!
-	autocmd BufRead,BufNewFile,BufReadPost *.xit set filetype=xit
-	autocmd FileType xit setlocal shiftwidth=4 softtabstop=4 expandtab
-augroup END
+if s:xit.is_configured()
+	" TODO figure out if we need to do anything here
+  " command! MyPluginGreet call s:my_plugin.greet()
+endif
