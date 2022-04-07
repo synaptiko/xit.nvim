@@ -27,6 +27,14 @@ function xit.setup(options)
 		},
 		filetype = "xit",
 	}
+
+	local group = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
+	vim.api.nvim_create_autocmd({
+		group = group,
+		event = "BufRead,BufNewFile,BufReadPost",
+		pattern = "*.xit",
+		eval = "set filetype=xit",
+	})
 end
 
 function xit.is_configured()
