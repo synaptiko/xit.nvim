@@ -10,7 +10,7 @@ if s:xit.is_configured()
   " command! MyPluginGreet call s:my_plugin.greet()
 endif
 
-highlight XitHeadline gui=underlineline term=underlineline
+highlight XitHeadline gui=underline,bold term=underline,bold
 
 highlight default link XitOpenCheckbox Property
 highlight default link XitOpenTaskMainLine Property
