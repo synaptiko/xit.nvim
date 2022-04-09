@@ -1,3 +1,4 @@
+(headline) @XitHeadline
 (open_checkbox) @XitOpenCheckbox
 (checked_checkbox) @XitCheckedCheckbox
 (ongoing_checkbox) @XitOngoingCheckbox
