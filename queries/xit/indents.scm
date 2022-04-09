@@ -1,1 +1,1 @@
-(task_name) @indent
+(task) @indent
