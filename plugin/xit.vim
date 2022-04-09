@@ -16,7 +16,7 @@ highlight XitHeadline gui=underline,bold term=underline,bold
 highlight default link XitOpenCheckbox Property
 highlight default link XitOpenTaskMainLine Property
 highlight default link XitOpenTaskOtherLine Property
-highlight default link XitOpenTaskPriority Text.danger
+highlight default link XitOpenTaskPriority TextDanger
 
 highlight default link XitCheckedCheckbox Comment
 highlight default link XitCheckedTaskMainLine Comment
@@ -26,7 +26,7 @@ highlight default link XitCheckedTaskPriority Comment
 highlight default link XitOngoingCheckbox MoreMsg
 highlight default link XitOngoingTaskMainLine MoreMsg
 highlight default link XitOngoingTaskOtherLine MoreMsg
-highlight default link XitOngoingTaskPriority Text.danger
+highlight default link XitOngoingTaskPriority TextDanger
 
 " TODO how to make XitObsoleteTask to use both comment style & strikethrough?
 highlight default link XitObsoleteCheckbox Comment
