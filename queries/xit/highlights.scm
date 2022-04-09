@@ -11,3 +11,7 @@
 (ongoing_task (description (indent (other_line) @XitOngoingTaskOtherLine)))
 (obsolete_task (description (main_line) @XitObsoleteTaskMainLine))
 (obsolete_task (description (indent (other_line) @XitObsoleteTaskOtherLine)))
+(open_task (description (priority) @XitOpenTaskPriority))
+(checked_task (description (priority) @XitCheckedTaskPriority))
+(ongoing_task (description (priority) @XitOngoingTaskPriority))
+(obsolete_task (description (priority) @XitObsoleteTaskPriority))
