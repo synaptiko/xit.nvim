@@ -4,7 +4,7 @@ Plugin to work with [[x]it!](https://xit.jotaen.net/) files. Uses [tree-sitter-x
 
 ## Features
 
-TODO
+See [Status](#status) for now.
 
 ## Installation
 
@@ -31,14 +31,5 @@ then restart once more and run:
 
 ## Status
 
-- [x] Filetype & tree-sitter config
-- [ ] Add queries
-	- [x] Indentation
-	- [x] Basic highlighting
-	- [ ] Group folding?
-- [ ] Keymap to create a new task
-- [ ] Keymap to toggle task status
-- [ ] Keymap to jump between tasks
-- [ ] Keymap to jump between groups?
-- [ ] Quickly filter out all completed or unfinished tasks (should support groups too)?
-- [ ] Improve the installation process if it's possible (I couldn't figure it out)
+Work in progress, see more in:
+[TODO.xit](./TODO.xit)

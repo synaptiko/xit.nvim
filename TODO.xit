@@ -1,0 +1,20 @@
+Basics
+[x] Filetype & tree-sitter config
+
+Queries
+[x] Indentation
+[x] Basic highlighting
+[ ] Group folding?
+
+Keymaps
+[@] Create a new task
+[ ] Toggle task status
+[ ] Jump between tasks
+[ ] Jump between groups?
+
+Commands
+[ ] Quickly filter out all completed or unfinished tasks (should support groups too)?
+[ ] Sort tasks by status, priority, due date?
+
+Others
+[ ] Improve the installation process if it's possible (I couldn't figure it out)
