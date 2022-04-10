@@ -22,17 +22,18 @@ function xit.setup(options)
     filetype = "xit",
   }
 
-  local group = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
-  vim.api.nvim_create_autocmd("BufRead,BufNewFile,BufReadPost", {
-    group = group,
-    pattern = "*.xit",
-    command = "set filetype=xit",
-  })
-  vim.api.nvim_create_autocmd('FileType', {
-    group = group,
-    pattern = "xit",
-    command = "setlocal shiftwidth=4 softtabstop=4 expandtab",
-  })
+  -- TODO jiri: rework when 0.7 is officially out
+  -- local group = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
+  -- vim.api.nvim_create_autocmd("BufRead,BufNewFile,BufReadPost", {
+  --   group = group,
+  --   pattern = "*.xit",
+  --   command = "set filetype=xit",
+  -- })
+  -- vim.api.nvim_create_autocmd('FileType', {
+  --   group = group,
+  --   pattern = "xit",
+  --   command = "setlocal shiftwidth=4 softtabstop=4 expandtab",
+  -- })
 end
 
 function xit.is_configured()
