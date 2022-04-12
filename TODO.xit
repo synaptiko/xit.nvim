@@ -7,10 +7,13 @@ Queries
 [ ] Group folding?
 
 Keymaps
-[@] Create a new task
+[x] Create a basic mapping for new task
+[x] Create a basic mapping for new headline
 [ ] Toggle task status
 [ ] Jump between tasks
-[ ] Jump between groups?
+[ ] Jump between headlines?
+[ ] Figure out what would be ideal mapping in insert mode
+[ ] Fix creation of new task from indented line
 
 Commands
 [ ] Quickly filter out all completed or unfinished tasks (should support groups too)?
