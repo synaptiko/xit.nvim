@@ -9,7 +9,7 @@ Queries
 Keymaps
 [x] Create a basic mapping for new task
 [x] Create a basic mapping for new headline
-[ ] Toggle task status
+[x] Toggle task status
 [ ] Jump between tasks
 [ ] Jump between headlines?
 [ ] Figure out what would be ideal mapping in insert mode
