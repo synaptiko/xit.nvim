@@ -194,6 +194,54 @@ M.jump_to_previous_headline = function(wrap)
   end
 end
 
+M.create_new_task = function(before_current_task, stay_in_current_mode)
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local current_task_node = get_node_of_type("task")
+  local insertion_row
+
+  if current_task_node ~= nil then
+    local start_row, _, end_row = current_task_node:range()
+
+    if before_current_task then
+      insertion_row = start_row
+    else
+      insertion_row = end_row + 1
+    end
+  else
+    insertion_row = cursor[1] - (before_current_task and 1 or 0)
+  end
+
+  vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { "[ ] " })
+  vim.api.nvim_win_set_cursor(0, { insertion_row + 1, 4 })
+  if not stay_in_current_mode then
+    vim.cmd('startinsert!')
+  end
+end
+
+M.create_new_heading = function(before_current_task, stay_in_current_mode)
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local current_task_node = get_node_of_type("task")
+  local insertion_row
+
+  if current_task_node ~= nil then
+    local start_row, _, end_row = current_task_node:range()
+
+    if before_current_task then
+      insertion_row = start_row
+    else
+      insertion_row = end_row + 1
+    end
+  else
+    insertion_row = cursor[1] - (before_current_task and 1 or 0)
+  end
+
+  vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { "", "" })
+  vim.api.nvim_win_set_cursor(0, { insertion_row + 2, 0 })
+  if not stay_in_current_mode then
+    vim.cmd('startinsert!')
+  end
+end
+
 M.is_configured = function()
    return configured
 end

@@ -12,10 +12,16 @@ Keymaps
 [x] Toggle task status
 [x] Jump between tasks
 [x] Jump between headlines
-[ ] Rewrite new task/headline mapping to a form of a command
-[ ] Fix creation of new task from indented line
+[x] Rewrite new task/headline mapping to a form of a command
+[x] Fix creation of new task from indented line
 [ ] Make mappings configurable
+    - similar to mapping of nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
+    - or we can go with https://github.com/ziontee113/syntax-tree-surfer#heres-my-suggestion
 [ ] Figure out what would be ideal mapping in insert mode
+    - idea:
+        1. enter at the end of line => new task
+        2. shift+enter => indented line of current task
+        3. enter/shift+enter inside line => indented line
 
 Commands
 [ ] Quickly filter out all completed or unfinished tasks (should support groups too)?

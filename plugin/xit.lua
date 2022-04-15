@@ -60,16 +60,4 @@ if xit.is_configured() then
     highlight XitObsoleteTaskOtherLine gui=strikethrough term=strikethrough
     highlight XitObsoleteTaskPriority gui=strikethrough term=strikethrough
   ]])
-
-  -- Mapping to create a new task
-  vim.cmd([[
-    nmap <leader>t o[ ] 
-    nmap <leader>T O[ ] 
-  ]])
-
-  -- Mapping to create a new heading
-  vim.cmd([[
-    nmap <leader>e o<CR>
-    nmap <leader>E O<CR>
-  ]])
 end
