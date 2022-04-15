@@ -11,7 +11,7 @@ Keymaps
 [x] Create a basic mapping for new headline
 [x] Toggle task status
 [x] Jump between tasks
-[ ] Jump between headlines
+[x] Jump between headlines
 [ ] Rewrite new task/headline mapping to a form of a command
 [ ] Fix creation of new task from indented line
 [ ] Make mappings configurable
