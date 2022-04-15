@@ -11,10 +11,11 @@ Keymaps
 [x] Create a basic mapping for new headline
 [x] Toggle task status
 [x] Jump between tasks
-[ ] Jump between headlines?
-[ ] Figure out what would be ideal mapping in insert mode
+[ ] Jump between headlines
 [ ] Rewrite new task/headline mapping to a form of a command
 [ ] Fix creation of new task from indented line
+[ ] Make mappings configurable
+[ ] Figure out what would be ideal mapping in insert mode
 
 Commands
 [ ] Quickly filter out all completed or unfinished tasks (should support groups too)?
@@ -22,8 +23,12 @@ Commands
 
 Others
 [ ] Improve the installation process if it's possible (I couldn't figure it out)
+[ ] Improve README.md, explain how to configure and stuff
+[ ] Add tests? See https://github.com/nvim-lua/plenary.nvim/blob/master/TESTS_README.md
 
 Ideas
 [ ] Show the filtered result in a floating window with ability to yank it?
 [ ] Search by tag(s) in floating window
 [ ] Ability to trigger showing of TODO.xit (configurable) in floating window
+[ ] Add divider support (like ---) and use virtual text to draw a line
+    over the whole width of the window
