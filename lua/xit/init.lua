@@ -42,7 +42,7 @@ end
 local set_mappings = function(M, augroup)
   local jump_between_all_tasks = { "task" }
   local jump_between_open_and_ongoing_tasks = { "open_task", "ongoing_task" }
-  local jump_between = jump_between_all_tasks
+  local jump_between = jump_between_all_tasks -- TODO this could be configurable too
 
   local toggle_jumps = function()
     if jump_between == jump_between_all_tasks then
@@ -69,7 +69,8 @@ local set_mappings = function(M, augroup)
       vim.keymap.set('n', '<leader>m', function() M.create_new_headline(false) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>M', function() M.create_new_headline(true) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>t', toggle_jumps, { buffer = true, silent = true })
-      vim.keymap.set('i', '<CR>', function() M.create_new_task(false) end, { buffer = true, silent = true })
+      vim.keymap.set('i', '<CR>', M.create_new_task_in_insert_mode, { buffer = true, silent = true })
+      vim.keymap.set('i', '<S-CR>', M.create_indented_line_in_insert_mode, { buffer = true, silent = true })
     end
   })
 end
@@ -208,6 +209,16 @@ local find_previous_headline = function(current_headline_node, start_line, end_l
   end
 
   return false
+end
+
+local insert_new_line = function()
+  local key = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
+  vim.api.nvim_feedkeys(key, "n", false)
+end
+
+local insert_new_indented_line = function()
+  local key = vim.api.nvim_replace_termcodes("<CR><Tab>", true, false, true)
+  vim.api.nvim_feedkeys(key, "n", false)
 end
 
 -----------------------
@@ -363,6 +374,68 @@ M.create_new_headline = function(before_current_task, stay_in_current_mode)
   vim.api.nvim_win_set_cursor(0, { insertion_row + 2, 0 })
   if not stay_in_current_mode then
     vim.cmd('startinsert!')
+  end
+end
+
+M.create_new_task_in_insert_mode = function()
+  local current_column = vim.api.nvim_eval('col(".")')
+  local last_column = vim.api.nvim_eval('col("$")')
+
+  if current_column == 1 then
+    insert_new_line()
+  elseif current_column == last_column then
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local current_node = get_node_of_type("headline") or get_node_of_type("task", { cursor[1], cursor[2] - 1 })
+    local at_the_end_of_task = false
+
+    if current_node and current_node:type() == "task" then
+      local _, _, end_row = current_node:range()
+      at_the_end_of_task = end_row + 1 == cursor[1]
+    end
+
+    if current_node and ((current_node:type() == "task" and at_the_end_of_task) or current_node:type() == "headline") then
+      M.create_new_task(false, true)
+    else
+      local other_line_node = get_node_of_type("other_line", { cursor[1], cursor[2] - 1 })
+
+      if other_line_node == nil then
+        insert_new_indented_line()
+      else
+        insert_new_line()
+      end
+    end
+  else
+    local current_node = get_node_of_type("task")
+    local other_line_node = get_node_of_type("other_line")
+    local indent_node = get_node_of_type("indent")
+
+    if (current_node and current_node:type() == "task" and (other_line_node == nil or indent_node)) then
+      insert_new_indented_line()
+    else
+      insert_new_line()
+    end
+  end
+end
+
+M.create_indented_line_in_insert_mode = function()
+  local current_column = vim.api.nvim_eval('col(".")')
+  local last_column = vim.api.nvim_eval('col("$")')
+
+  if current_column == last_column then
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local insertion_row = cursor[1]
+
+    vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { "    " })
+    vim.api.nvim_win_set_cursor(0, { insertion_row + 1, 4 })
+  else
+    local current_node = get_node_of_type("task")
+    local other_line_node = get_node_of_type("other_line")
+
+    if (current_node and current_node:type() == "task" and other_line_node == nil) then
+      insert_new_indented_line()
+    else
+      insert_new_line()
+    end
   end
 end
 

@@ -4,7 +4,7 @@ Basics
 Queries
 [x] Indentation
 [x] Basic highlighting
-[ ] Group/headline folding?
+[~] Group/headline folding? (I don't think it's needed, maybe later)
 
 Keymaps
 [x] Create a basic mapping for new task
@@ -17,12 +17,8 @@ Keymaps
 [x] Update function which jumps to the next/previous to accept types
     (so it's possible to jump over only open/ongoing tasks)
 [x] Set default mappings
-[ ] Figure out what would be ideal mapping in insert mode
-    - idea:
-        1. enter at the end of line => new task
-        2. shift+enter => indented line of current task
-        3. enter/shift+enter inside line => indented line
-[ ] Delete task
+[x] Implement insert mode mappings for Enter and Shift+Enter
+[@] Delete task
 
 Config
 [ ] Make highlights and mappings configurable
