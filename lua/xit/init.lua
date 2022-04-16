@@ -72,6 +72,8 @@ local set_mappings = function(M, augroup, options)
       vim.keymap.set('n', '<leader>M', function() M.create_new_headline(true) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>t', toggle_jumps, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>x', M.delete_task, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>fo', function() M.filter_tasks({ "open_task", "ongoing_task" }) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>fc', function() M.filter_tasks({ "checked_task" }) end, { buffer = true, silent = true })
       vim.keymap.set('i', '<CR>', M.create_new_task_in_insert_mode, { buffer = true, silent = true })
       vim.keymap.set('i', '<S-CR>', M.create_indented_line_in_insert_mode, { buffer = true, silent = true })
 
@@ -472,6 +474,7 @@ M.filter_tasks = function(types)
     types = { "open_task", "ongoing_task" }
   end
 
+  -- 1. eliminate tasks
   for node in root:iter_children() do
     if node:type() == "task" then
       local task_type = node:child():type()
@@ -495,7 +498,44 @@ M.filter_tasks = function(types)
     vim.api.nvim_buf_set_lines(0, start_row, end_row + 1, false, {})
   end
 
-  -- TODO clean-up all the headlines which are not followed by a task; remove additional empty lines (at most one empty line)
+  -- 2. eliminate empty headlines (headlines which are not followed by any tasks)
+  local max_line = vim.api.nvim_buf_line_count(0)
+  local was_empty_line_or_headline_or_eof = true -- it's EOF initially
+
+  for i = max_line, 1, -1 do
+    local node = get_node_for_cursor({ i, 0 })
+
+    if node:type() == 'headline' and was_empty_line_or_headline_or_eof then
+      vim.api.nvim_buf_set_lines(0, i - 1, i + 1, false, {})
+      was_empty_line_or_headline_or_eof = true
+    elseif node == root then
+      was_empty_line_or_headline_or_eof = true
+    else
+      was_empty_line_or_headline_or_eof = false
+    end
+  end
+
+  -- 3. eliminate multiple empty lines, only keep 1
+  max_line = vim.api.nvim_buf_line_count(0)
+  local empty_line_count = 0
+  local was_eof = true -- it's EOF initially
+
+  for i = max_line, 1, -1 do
+    local node = get_node_for_cursor({ i, 0 })
+
+    print(i, empty_line_count)
+    if node == root then
+      empty_line_count = empty_line_count + 1 + (was_eof and 1 or 0)
+    elseif empty_line_count >= 2 then
+      print('deleted', i, i + empty_line_count - 1)
+      vim.api.nvim_buf_set_lines(0, i, i + empty_line_count - 1, false, {})
+      empty_line_count = 0
+    else
+      empty_line_count = 0
+    end
+
+    was_eof = false
+  end
 end
 
 M.is_configured = function()
