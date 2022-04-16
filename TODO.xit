@@ -21,13 +21,14 @@ Keymaps
 [x] Delete task
 
 Config
-[@] Make highlights and mappings configurable
-    - similar to mapping of nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
-    - or we can just go with https://github.com/ziontee113/syntax-tree-surfer#heres-my-suggestion
-[ ] Add default jump types configuration
+[x] Make default highlights and mappings configurable
+[x] Add default jump group configuration
+[ ] Implement advanced configuration for mapping (maybe)
+    (could be similar to mapping in nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration)
+[ ] Implement advanced configuration for highlighting (maybe)
 
 Commands
-[ ] Quickly filter out tasks by status (should consider headlines too)
+[@] Quickly filter out tasks by status (should consider headlines too)
 [ ] Sort tasks by status, priority, due date?
 
 Others

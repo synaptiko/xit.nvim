@@ -39,10 +39,12 @@ local set_highlighting = function()
   vim.api.nvim_set_hl(0, 'XitObsoleteTaskPriority', obsoleteStrikedHighlight)
 end
 
-local set_mappings = function(M, augroup)
+local set_mappings = function(M, augroup, options)
   local jump_between_all_tasks = { "task" }
   local jump_between_open_and_ongoing_tasks = { "open_task", "ongoing_task" }
-  local jump_between = jump_between_all_tasks -- TODO this could be configurable too
+  local jump_between = options.default_jump_group == 'all'
+    and jump_between_all_tasks
+    or jump_between_open_and_ongoing_tasks
 
   local toggle_jumps = function()
     if jump_between == jump_between_all_tasks then
@@ -58,10 +60,10 @@ local set_mappings = function(M, augroup)
     group = augroup,
     pattern = "xit",
     callback = function()
-      vim.keymap.set('n', '<C-n>', function() M.jump_to_next_task(true, jump_between) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-p>', function() M.jump_to_previous_task(true, jump_between) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-n>', function() M.jump_to_next_headline(true) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-p>', function() M.jump_to_previous_headline(true) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-n>', function() M.jump_to_next_task(options.wrap_jumps, jump_between) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-p>', function() M.jump_to_previous_task(options.wrap_jumps, jump_between) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-n>', function() M.jump_to_next_headline(options.wrap_jumps) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-p>', function() M.jump_to_previous_headline(options.wrap_jumps) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<C-t>', function() M.toggle_checkbox(false) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<C-S-t>', function() M.toggle_checkbox(true) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>n', function() M.create_new_task(false) end, { buffer = true, silent = true })
@@ -72,6 +74,14 @@ local set_mappings = function(M, augroup)
       vim.keymap.set('n', '<leader>x', M.delete_task, { buffer = true, silent = true })
       vim.keymap.set('i', '<CR>', M.create_new_task_in_insert_mode, { buffer = true, silent = true })
       vim.keymap.set('i', '<S-CR>', M.create_indented_line_in_insert_mode, { buffer = true, silent = true })
+
+      if options.in_development then
+        vim.keymap.set('n', '<leader>r', function()
+          package.loaded['xit'] = nil
+          Xit = require'xit'
+          -- TODO we could also clean-up the augroup and re-map the mappings etc.
+        end, { buffer = true, silent = true })
+      end
     end
   })
 end
@@ -226,6 +236,10 @@ end
 -- MODULE DEFINITION --
 -----------------------
 local options = {
+  disable_default_highlights = false,
+  disable_default_mappings = false,
+  default_jump_group = "all", -- possible values: all, open_and_ongoing
+  wrap_jumps = true,
   in_development = false
 }
 local configured = false
@@ -259,13 +273,12 @@ M.setup = function(opts)
     command = "setlocal shiftwidth=4 softtabstop=4 expandtab",
   })
 
-  set_highlighting()
-  set_mappings(M, augroup)
+  if not options.disable_default_highlights then
+    set_highlighting()
+  end
 
-  if options.in_development then
-    vim.cmd([[
-      nnoremap <silent> <leader>x <cmd>lua package.loaded['xit'] = nil<CR><cmd>lua xit = require'xit'<CR>
-    ]])
+  if not options.disable_default_mappings then
+    set_mappings(M, augroup, options)
   end
 end
 
