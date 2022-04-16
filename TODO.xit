@@ -28,7 +28,7 @@ Config
 [ ] Implement advanced configuration for highlighting (maybe)
 
 Commands
-[@] Quickly filter out tasks by status (should consider headlines too)
+[@] Quickly filter out tasks by status (should be headline-aware)
 [ ] Sort tasks by status, priority, due date?
 
 Others

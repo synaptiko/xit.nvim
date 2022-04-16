@@ -464,6 +464,40 @@ M.delete_task = function()
   end
 end
 
+M.filter_tasks = function(types)
+  local root = ts_utils.get_root_for_node(get_node_for_cursor())
+  local tasks_to_remove = {}
+
+  if types == nil then
+    types = { "open_task", "ongoing_task" }
+  end
+
+  for node in root:iter_children() do
+    if node:type() == "task" then
+      local task_type = node:child():type()
+      local match = false
+
+      for _, type in ipairs(types) do
+        if task_type == type then
+          match = true
+          break
+        end
+      end
+
+      if not match then
+        table.insert(tasks_to_remove, node)
+      end
+    end
+  end
+
+  for i = #tasks_to_remove, 1, -1 do
+    local start_row, _, end_row = tasks_to_remove[i]:range()
+    vim.api.nvim_buf_set_lines(0, start_row, end_row + 1, false, {})
+  end
+
+  -- TODO clean-up all the headlines which are not followed by a task; remove additional empty lines (at most one empty line)
+end
+
 M.is_configured = function()
    return configured
 end
