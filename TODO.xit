@@ -16,14 +16,18 @@ Keymaps
 [x] Fix creation of new task from indented line
 [x] Update function which jumps to the next/previous to accept types
     (so it's possible to jump over only open/ongoing tasks)
-[ ] Make mappings configurable
-    - similar to mapping of nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
-    - or we can go with https://github.com/ziontee113/syntax-tree-surfer#heres-my-suggestion
+[x] Set default mappings
 [ ] Figure out what would be ideal mapping in insert mode
     - idea:
         1. enter at the end of line => new task
         2. shift+enter => indented line of current task
         3. enter/shift+enter inside line => indented line
+[ ] Delete task
+
+Config
+[ ] Make highlights and mappings configurable
+    - similar to mapping of nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
+    - or we can just go with https://github.com/ziontee113/syntax-tree-surfer#heres-my-suggestion
 
 Commands
 [ ] Quickly filter out all completed or unfinished tasks (should support groups too)?

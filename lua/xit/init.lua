@@ -39,6 +39,41 @@ local set_highlighting = function()
   vim.api.nvim_set_hl(0, 'XitObsoleteTaskPriority', obsoleteStrikedHighlight)
 end
 
+local set_mappings = function(M, augroup)
+  local jump_between_all_tasks = { "task" }
+  local jump_between_open_and_ongoing_tasks = { "open_task", "ongoing_task" }
+  local jump_between = jump_between_all_tasks
+
+  local toggle_jumps = function()
+    if jump_between == jump_between_all_tasks then
+      jump_between = jump_between_open_and_ongoing_tasks
+      print("Jumping toggled to open and ongoing tasks")
+    else
+      jump_between = jump_between_all_tasks
+      print("Jumping toggled to all tasks")
+    end
+  end
+
+  vim.api.nvim_create_autocmd('FileType', {
+    group = augroup,
+    pattern = "xit",
+    callback = function()
+      vim.keymap.set('n', '<C-n>', function() M.jump_to_next_task(true, jump_between) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-p>', function() M.jump_to_previous_task(true, jump_between) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-n>', function() M.jump_to_next_headline(true) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-p>', function() M.jump_to_previous_headline(true) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-t>', function() M.toggle_checkbox(false) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-t>', function() M.toggle_checkbox(true) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>n', function() M.create_new_task(false) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>N', function() M.create_new_task(true) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>m', function() M.create_new_headline(false) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>M', function() M.create_new_headline(true) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>t', toggle_jumps, { buffer = true, silent = true })
+      vim.keymap.set('i', '<CR>', function() M.create_new_task(false) end, { buffer = true, silent = true })
+    end
+  })
+end
+
 local get_node_for_cursor = function(cursor)
   if cursor == nil then
     cursor = vim.api.nvim_win_get_cursor(0)
@@ -200,19 +235,20 @@ M.setup = function(opts)
     filetype = "xit",
   }
 
-  local group = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
+  local augroup = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
   vim.api.nvim_create_autocmd("BufRead,BufNewFile,BufReadPost", {
-    group = group,
+    group = augroup,
     pattern = "*.xit",
     command = "set filetype=xit",
   })
   vim.api.nvim_create_autocmd('FileType', {
-    group = group,
+    group = augroup,
     pattern = "xit",
     command = "setlocal shiftwidth=4 softtabstop=4 expandtab",
   })
 
   set_highlighting()
+  set_mappings(M, augroup)
 
   if options.in_development then
     vim.cmd([[
@@ -306,7 +342,7 @@ M.create_new_task = function(before_current_task, stay_in_current_mode)
   end
 end
 
-M.create_new_heading = function(before_current_task, stay_in_current_mode)
+M.create_new_headline = function(before_current_task, stay_in_current_mode)
   local cursor = vim.api.nvim_win_get_cursor(0)
   local current_task_node = get_node_of_type("task")
   local insertion_row
