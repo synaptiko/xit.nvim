@@ -14,6 +14,8 @@ Keymaps
 [x] Jump between headlines
 [x] Rewrite new task/headline mapping to a form of a command
 [x] Fix creation of new task from indented line
+[x] Update function which jumps to the next/previous to accept types
+    (so it's possible to jump over only open/ongoing tasks)
 [ ] Make mappings configurable
     - similar to mapping of nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
     - or we can go with https://github.com/ziontee113/syntax-tree-surfer#heres-my-suggestion
@@ -40,4 +42,3 @@ Ideas
 [ ] Add divider support (like ---) and use virtual text to draw a line
     over the whole width of the window
 [ ] Command to move task up/down
-[ ] Add command to jump to the next/previous open/ongoing task too? (could be useful)

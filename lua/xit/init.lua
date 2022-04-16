@@ -68,8 +68,27 @@ local get_node_of_type = function(type, cursor)
   end
 end
 
+local get_node_of_types = function(types, cursor)
+  for _, type in ipairs(types) do
+    local node = get_node_of_type(type, cursor)
+    if node ~= nil then
+      return node
+    end
+  end
+end
+
 local get_checkbox = function(task_node)
-  return task_node:child():child()
+  if task_node:type() == 'task' then
+    return task_node:child():child()
+  elseif task_node:type() == 'open_task'
+    or task_node:type() == 'ongoing_task'
+    or task_node:type() == 'checked_task'
+    or task_node:type() == 'obsolete_task'
+  then
+    return task_node:child()
+  else
+    return nil
+  end
 end
 
 local get_next_checkbox_status_char = function(checkbox_node, toogle_back)
@@ -84,11 +103,19 @@ local get_next_checkbox_status_char = function(checkbox_node, toogle_back)
   end
 end
 
-local find_next_task = function(current_task_node, start_line, end_line)
-  for i = start_line, end_line do
-    local next_task = get_node_of_type("task", { i, 0 })
+local find_next_task = function(current_task_node, start_line, end_line, types)
+  types = types or { "task" }
 
-    if next_task ~= nil and (current_task_node == nil or next_task ~= current_task_node) then
+  for i = start_line, end_line do
+    local next_task = get_node_of_types(types, { i, 0 })
+
+    if next_task ~= nil
+      and (current_task_node == nil
+        or (next_task ~= current_task_node
+          and next_task:parent() ~= current_task_node
+        )
+      )
+    then
       local checkbox_row = get_checkbox(next_task):range()
       vim.api.nvim_win_set_cursor(0, { checkbox_row + 1, 4 })
       return true
@@ -98,11 +125,19 @@ local find_next_task = function(current_task_node, start_line, end_line)
   return false
 end
 
-local find_previous_task = function(current_task_node, start_line, end_line)
-  for i = start_line, end_line, -1 do
-    local previous_task = get_node_of_type("task", { i, 0 })
+local find_previous_task = function(current_task_node, start_line, end_line, types)
+  types = types or { "task" }
 
-    if previous_task ~= nil and (current_task_node == nil or previous_task ~= current_task_node) then
+  for i = start_line, end_line, -1 do
+    local previous_task = get_node_of_types(types, { i, 0 })
+
+    if previous_task ~= nil
+      and (current_task_node == nil
+        or (previous_task ~= current_task_node
+          and previous_task:parent() ~= current_task_node
+        )
+      )
+    then
       local checkbox_row = get_checkbox(previous_task):range()
       vim.api.nvim_win_set_cursor(0, { checkbox_row + 1, 4 })
       return true
@@ -201,26 +236,26 @@ M.toggle_checkbox = function(toggle_back)
   vim.api.nvim_buf_set_text(bufnr, start_row, start_col + 1, end_row, end_col - 1, { next_status })
 end
 
-M.jump_to_next_task = function(wrap)
+M.jump_to_next_task = function(wrap, types)
   local current_task_node = get_node_of_type("task")
   local cursor = vim.api.nvim_win_get_cursor(0)
   local max_line = vim.api.nvim_buf_line_count(0)
-  local found = find_next_task(current_task_node, cursor[1], max_line)
+  local found = find_next_task(current_task_node, cursor[1], max_line, types)
 
   if wrap and not found then
-    find_next_task(current_task_node, 0, cursor[1] - 1)
+    find_next_task(current_task_node, 0, cursor[1] - 1, types)
   end
 end
 
-M.jump_to_previous_task = function(wrap)
+M.jump_to_previous_task = function(wrap, types)
   local current_task_node = get_node_of_type("task")
   local cursor = vim.api.nvim_win_get_cursor(0)
-  local found = find_previous_task(current_task_node, cursor[1], 0)
+  local found = find_previous_task(current_task_node, cursor[1], 0, types)
 
   if wrap and not found then
     local max_line = vim.api.nvim_buf_line_count(0)
 
-    find_previous_task(current_task_node, max_line, cursor[1] + 1)
+    find_previous_task(current_task_node, max_line, cursor[1] + 1, types)
   end
 end
 
