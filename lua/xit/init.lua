@@ -69,6 +69,7 @@ local set_mappings = function(M, augroup)
       vim.keymap.set('n', '<leader>m', function() M.create_new_headline(false) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>M', function() M.create_new_headline(true) end, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>t', toggle_jumps, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>x', M.delete_task, { buffer = true, silent = true })
       vim.keymap.set('i', '<CR>', M.create_new_task_in_insert_mode, { buffer = true, silent = true })
       vim.keymap.set('i', '<S-CR>', M.create_indented_line_in_insert_mode, { buffer = true, silent = true })
     end
@@ -436,6 +437,17 @@ M.create_indented_line_in_insert_mode = function()
     else
       insert_new_line()
     end
+  end
+end
+
+M.delete_task = function()
+  local current_task_node = get_node_of_type("task")
+
+  if current_task_node ~= nil then
+    local start_row, _, end_row = current_task_node:range()
+    vim.api.nvim_buf_set_lines(0, start_row, end_row + 1, false, {})
+  else
+    print("No task found under the cursor")
   end
 end
 

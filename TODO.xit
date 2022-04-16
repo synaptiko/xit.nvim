@@ -18,15 +18,16 @@ Keymaps
     (so it's possible to jump over only open/ongoing tasks)
 [x] Set default mappings
 [x] Implement insert mode mappings for Enter and Shift+Enter
-[@] Delete task
+[x] Delete task
 
 Config
-[ ] Make highlights and mappings configurable
+[@] Make highlights and mappings configurable
     - similar to mapping of nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
     - or we can just go with https://github.com/ziontee113/syntax-tree-surfer#heres-my-suggestion
+[ ] Add default jump types configuration
 
 Commands
-[ ] Quickly filter out all completed or unfinished tasks (should support groups too)?
+[ ] Quickly filter out tasks by status (should consider headlines too)
 [ ] Sort tasks by status, priority, due date?
 
 Others
