@@ -1,5 +1,44 @@
 local ts_utils = require("nvim-treesitter.ts_utils")
 
+local set_highlighting = function()
+  local headlineHighlight = { underline = true, bold = true }
+  local openHighlight = {}
+  local openCheckboxHighlight = { bold = true }
+  local ongoingHighlight = vim.api.nvim_get_hl_by_name('MoreMsg', true)
+  local checkedHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
+  local obsoleteHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
+  local obsoleteStrikedHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
+  local priorityHighlight = vim.api.nvim_get_hl_by_name('TSDanger', true)
+
+  priorityHighlight.bold = true
+  checkedHighlight.italic = nil
+  obsoleteHighlight.italic = nil
+  obsoleteStrikedHighlight.italic = nil
+  obsoleteStrikedHighlight.strikethrough = true
+
+  vim.api.nvim_set_hl(0, 'XitHeadline', headlineHighlight)
+
+  vim.api.nvim_set_hl(0, 'XitOpenCheckbox', openCheckboxHighlight)
+  vim.api.nvim_set_hl(0, 'XitOpenTaskMainLine', openHighlight)
+  vim.api.nvim_set_hl(0, 'XitOpenTaskOtherLine', openHighlight)
+  vim.api.nvim_set_hl(0, 'XitOpenTaskPriority', priorityHighlight)
+
+  vim.api.nvim_set_hl(0, 'XitOngoingCheckbox', ongoingHighlight)
+  vim.api.nvim_set_hl(0, 'XitOngoingTaskMainLine', ongoingHighlight)
+  vim.api.nvim_set_hl(0, 'XitOngoingTaskOtherLine', ongoingHighlight)
+  vim.api.nvim_set_hl(0, 'XitOngoingTaskPriority', priorityHighlight)
+
+  vim.api.nvim_set_hl(0, 'XitCheckedCheckbox', checkedHighlight)
+  vim.api.nvim_set_hl(0, 'XitCheckedTaskMainLine', checkedHighlight)
+  vim.api.nvim_set_hl(0, 'XitCheckedTaskOtherLine', checkedHighlight)
+  vim.api.nvim_set_hl(0, 'XitCheckedTaskPriority', checkedHighlight)
+
+  vim.api.nvim_set_hl(0, 'XitObsoleteCheckbox', obsoleteHighlight)
+  vim.api.nvim_set_hl(0, 'XitObsoleteTaskMainLine', obsoleteStrikedHighlight)
+  vim.api.nvim_set_hl(0, 'XitObsoleteTaskOtherLine', obsoleteStrikedHighlight)
+  vim.api.nvim_set_hl(0, 'XitObsoleteTaskPriority', obsoleteStrikedHighlight)
+end
+
 local get_node_for_cursor = function(cursor)
   if cursor == nil then
     cursor = vim.api.nvim_win_get_cursor(0)
@@ -125,6 +164,20 @@ M.setup = function(opts)
     },
     filetype = "xit",
   }
+
+  local group = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
+  vim.api.nvim_create_autocmd("BufRead,BufNewFile,BufReadPost", {
+    group = group,
+    pattern = "*.xit",
+    command = "set filetype=xit",
+  })
+  vim.api.nvim_create_autocmd('FileType', {
+    group = group,
+    pattern = "xit",
+    command = "setlocal shiftwidth=4 softtabstop=4 expandtab",
+  })
+
+  set_highlighting()
 
   if options.in_development then
     vim.cmd([[
