@@ -280,6 +280,10 @@ M.setup = function(opts)
 
   if not options.disable_default_highlights then
     set_highlighting()
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      group = augroup,
+      callback = set_highlighting
+    })
   end
 
   if not options.disable_default_mappings then
