@@ -1,15 +1,18 @@
 local ts_utils = require("nvim-treesitter.ts_utils")
 
 local set_highlighting = function()
-  local headlineHighlight = { underline = true, bold = true }
-  local openHighlight = {}
-  local openCheckboxHighlight = { bold = true }
+  local headlineHighlight = vim.api.nvim_get_hl_by_name('Normal', true)
+  local openHighlight = vim.api.nvim_get_hl_by_name('Normal', true)
+  local openCheckboxHighlight = vim.api.nvim_get_hl_by_name('Normal', true)
   local ongoingHighlight = vim.api.nvim_get_hl_by_name('MoreMsg', true)
   local checkedHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
   local obsoleteHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
   local obsoleteStrikedHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
-  local priorityHighlight = vim.api.nvim_get_hl_by_name('TSDanger', true)
+  local priorityHighlight = vim.api.nvim_get_hl_by_name('ErrorMsg', true)
 
+  headlineHighlight.underline = true
+  headlineHighlight.bold = true
+  openCheckboxHighlight.bold = true
   priorityHighlight.bold = true
   checkedHighlight.italic = nil
   obsoleteHighlight.italic = nil

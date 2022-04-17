@@ -128,6 +128,6 @@ If you want to configure them on your own, feel free to use `disable_default_map
 
 ## Contributions
 
-Any contributions are welcome (check [the list above](#status-roadmap) to see open/ongoing tasks).
+Any contributions are welcome (check [the list above](#statusroadmap) to see open/ongoing tasks).
 
 If you are an experienced neovim plugin author or lua developer, I welcome your suggestions when it comes to the code & best practice.
