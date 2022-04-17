@@ -33,9 +33,10 @@ Commands
 
 Others
 [x] Adapt to neovim 0.7
-[@] Improve README.md, explain how to configure and stuff
-[@] Improve the installation process if it's possible (I couldn't figure it out)
-[ ] Release first public version
+[x] Improve README.md, explain how to configure and stuff
+[~] Improve the installation process if it's possible (I couldn't figure it out)
+[@] Record a video which showcases the features
+[@] Release first public version
 [ ] Add tests? See https://github.com/nvim-lua/plenary.nvim/blob/master/TESTS_README.md
 
 Ideas
