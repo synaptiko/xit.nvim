@@ -1,7 +1,7 @@
 0.1
 [x] Implement basic functionality
-[@] Record a video which showcases the features
-[ ] Create a release
+[x] Record a video which showcases the features
+[x] Create a release
 
 0.2
 [ ] Add tree-sitter tags support
