@@ -259,7 +259,7 @@ M.setup = function(opts)
     install_info = {
       url = "https://github.com/synaptiko/tree-sitter-xit",
       files = { "src/parser.c" },
-      branch = "master",
+      revision = "0.1",
       generate_requires_npm = false,
       requires_generate_from_grammar = false,
     },

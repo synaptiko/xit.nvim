@@ -1,0 +1,40 @@
+0.1
+[x] Implement basic functionality
+[@] Record a video which showcases the features
+[ ] Create a release
+
+0.2
+[ ] Add tree-sitter tags support
+[ ] Add tags syntax highlighting
+[ ] Add filtering tasks by tags
+[ ] Create a release
+
+0.3
+[ ] Add tree-sitter due dates support
+[ ] Add due date syntax highlighting
+[ ] Add filtering tasks by due date
+[ ] Create a release
+
+0.4
+[ ] Write tests: https://github.com/nvim-lua/plenary.nvim/blob/master/TESTS_README.md
+[ ] Implement advanced configuration for mapping
+    (could be similar to mapping in nvim-cmp: https://github.com/hrsh7th/nvim-cmp#recommended-configuration)
+[ ] Implement advanced configuration for highlighting (maybe)
+[ ] Sort tasks by status, priority, due date
+[ ] Create a release
+
+0.5
+[ ] Implement filtering in floating window (including keymap to quickly yank the result)
+[ ] Implement interactive filtering (maybe)
+[ ] Add ability to trigger showing of repo *.xit files (configurable) in floating window
+[ ] Create a release
+
+0.6
+[ ] Initiate discussion about divider in the spec: https://github.com/jotaen/xit/
+[ ] Add tree-sitter-xit divider support
+[ ] Implement virtual text to draw a divider over the whole window width
+[ ] Create a release
+
+1.0
+[ ] Finalize the tests and logic
+[ ] Create a release

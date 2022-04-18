@@ -122,12 +122,44 @@ XitObsoleteTaskPriority
 
 If you want to configure them on your own, feel free to use `disable_default_mappings = true` and use [any function exported by `xit` module](./lua/xit.init.lua) (at the bottom of the file, look for `M.* = function` lines).
 
-## Status/Roadmap
+## Roadmap
 
-[TODO.xit](./TODO.xit)
+See also [Roadmap.xit](./Roadmap.xit).
 
-## Contributions
+### 0.1 (Released)
 
-Any contributions are welcome (check [the list above](#statusroadmap) to see open/ongoing tasks).
+Basic functionality and the plugin is ready for daily usage.
+
+### 0.2 (WIP)
+
+Support for tags syntax highlighting and filtering tasks by tags.
+
+### 0.3
+
+Support for due dates syntax highlighting and filtering tasks by the date.
+
+### 0.4
+
+Write tests and add better mappings configuration. Add task sorting capabilities.
+
+### 0.5
+
+Use floating windows to show filtered results. Interactive filtering capabilities.
+
+### 0.6
+
+Investigate divider support (will need spec. change and `tree-sitter-xit` support).
+
+### 1.0
+
+The plugin is fully tested and has all the goodies.
+
+## Contributing
+
+Any contributions are welcome (check [the list above](#roadmap) to see open/ongoing tasks).
 
 If you are an experienced neovim plugin author or lua developer, I welcome your suggestions when it comes to the code & best practice.
+
+There is also a discussion thread about this plugin: https://github.com/jotaen/xit/discussions/26
+
+You can also check [recommended learning resources](./LearningResources.md) and [ideas](./Ideas.md).
