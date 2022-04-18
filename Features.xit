@@ -1,0 +1,24 @@
+Features
+[ ] !!! Syntax highlighting
+[@] !.. Ongoing task
+[x] !!! Finished task
+[~] !!! Obsolete task
+[ ] Create a new task in insert mode by pressing Enter
+    at the end of the line, or create multiline task
+    by pressing Shift+Enter
+[ ] We can create tasks and headlines from normal mode by pressing
+    <Leader>n/N for tasks (after and before the current line/task)
+    <Leader>m/M for headlines (after and before the current line/task)
+[ ] Task can be also created from headline in insert mode
+    by pressing Enter
+[ ] Toggle the status by pressing
+    Ctrl+t/T
+[ ] We can jump between tasks and headlines in normal mode by pressing
+    Ctrl+n/p for tasks
+    Ctrl+N/P for headlines
+    by pressing <Leader>t we can switch between two modes of jumping
+    between tasks: all or open and ongoing only
+
+Filtering tasks
+[ ] Press <Leader>fo to get only open and ongoing tasks
+[ ] Press <Leader>fc to get only checked tasks (without obsolete ones)

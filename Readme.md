@@ -4,6 +4,9 @@ Plugin to work with [[x]it!](https://xit.jotaen.net/) files. Uses [tree-sitter-x
 
 ## Features
 
+### Video version
+[![Features of xit.nvim plugin (v0.1)](https://img.youtube.com/vi/VrFdujDqeOA/default.jpg)](https://youtu.be/VrFdujDqeOA)
+
 - customizable syntax highlighting (with tree-sitter)
 - customizable key mappings
 - jump between tasks (you can toggle if it's jumping between all tasks or only open and ongoing ones)
