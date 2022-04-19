@@ -40,7 +40,8 @@ then source your `init.vim`/`init.lua` (or restart your nvim) and run:
 ```
 
 and initialize the plugin with the following lua line (for available options see [Configuration/Options](#options)):
-```
+```lua
+-- Note: should be after your nvim-treesitter setup
 require("xit").setup {}
 ```
 
