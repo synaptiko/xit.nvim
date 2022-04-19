@@ -1,14 +1,41 @@
 local ts_utils = require("nvim-treesitter.ts_utils")
 
+local get_resolved_highlight_by_id
+get_resolved_highlight_by_id = function(id)
+  local result = {}
+  local main_highlight = vim.api.nvim_get_hl_by_id(id, true)
+
+  if main_highlight[true] then
+    local linked_id = main_highlight[true]
+    local linked_highlight = get_resolved_highlight_by_id(linked_id)
+
+    for key, value in pairs(linked_highlight) do
+      result[key] = value
+    end
+
+    main_highlight[true] = nil
+  end
+
+  for key, value in pairs(main_highlight) do
+    result[key] = value
+  end
+
+  return result
+end
+
+local get_resolved_highlight_by_name = function(name)
+  return get_resolved_highlight_by_id(vim.api.nvim_get_hl_id_by_name(name))
+end
+
 local set_highlighting = function()
-  local headlineHighlight = vim.api.nvim_get_hl_by_name('Normal', true)
-  local openHighlight = vim.api.nvim_get_hl_by_name('Normal', true)
-  local openCheckboxHighlight = vim.api.nvim_get_hl_by_name('Normal', true)
-  local ongoingHighlight = vim.api.nvim_get_hl_by_name('MoreMsg', true)
-  local checkedHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
-  local obsoleteHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
-  local obsoleteStrikedHighlight = vim.api.nvim_get_hl_by_name('Comment', true)
-  local priorityHighlight = vim.api.nvim_get_hl_by_name('ErrorMsg', true)
+  local headlineHighlight = get_resolved_highlight_by_name('Normal')
+  local openHighlight = get_resolved_highlight_by_name('Normal')
+  local openCheckboxHighlight = get_resolved_highlight_by_name('Normal')
+  local ongoingHighlight = get_resolved_highlight_by_name('MoreMsg')
+  local checkedHighlight = get_resolved_highlight_by_name('Comment')
+  local obsoleteHighlight = get_resolved_highlight_by_name('Comment')
+  local obsoleteStrikedHighlight = get_resolved_highlight_by_name('Comment')
+  local priorityHighlight = get_resolved_highlight_by_name('ErrorMsg')
 
   headlineHighlight.underline = true
   headlineHighlight.bold = true
