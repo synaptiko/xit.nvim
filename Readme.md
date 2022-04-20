@@ -29,25 +29,33 @@ __No support for Vim is planned. Check [vim-xit](https://github.com/ryanolsonx/v
 
 ### Installation
 
-Use your favorite plugin manager, ie. `vim-plug`:
+Use your favorite plugin manager, ie. `packer.nvim`:
+``` lua
+use {
+  'synaptiko/xit.nvim',
+  opt = true, -- for lazy-loading
+  ft = 'xit', -- for lazy-loading
+  setup = function() -- for lazy-loading
+    local augroup = vim.api.nvim_create_augroup('xit_filetype', { clear = true })
+    vim.api.nvim_create_autocmd('BufRead,BufNewFile,BufReadPost', {
+      group = augroup,
+      pattern = '*.xit',
+      command = 'set filetype=xit',
+    })
+  end,
+  run = function(plugin)
+    plugin.config()
+    vim.cmd[[:TSInstall! xit]]
+  end,
+  config = function() require('xit').setup() end,
+  requires = { 'nvim-treesitter/nvim-treesitter' }
+}
 ```
-Plug 'synaptiko/xit.nvim'
-```
+__For available options see [Configuration/Options](#options).__
 
-then source your `init.vim`/`init.lua` (or restart your nvim) and run:
+then sync your plugins, ie. with:
 ```
-:PlugInstall
-```
-
-and initialize the plugin with the following lua line (for available options see [Configuration/Options](#options)):
-```lua
--- Note: should be after your nvim-treesitter setup
-require("xit").setup {}
-```
-
-then source or restart once more and run:
-```
-:TSInstall xit
+:PackerSync
 ```
 
 Now you should be ready to load `*.xit` files and use all the features of this plugin.
