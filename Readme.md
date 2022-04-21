@@ -35,14 +35,6 @@ use {
   'synaptiko/xit.nvim',
   opt = true, -- for lazy-loading
   ft = 'xit', -- for lazy-loading
-  setup = function() -- for lazy-loading
-    local augroup = vim.api.nvim_create_augroup('xit_filetype', { clear = true })
-    vim.api.nvim_create_autocmd('BufRead,BufNewFile,BufReadPost', {
-      group = augroup,
-      pattern = '*.xit',
-      command = 'set filetype=xit',
-    })
-  end,
   run = function(plugin)
     plugin.config()
     vim.cmd[[:TSInstall! xit]]

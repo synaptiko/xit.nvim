@@ -316,18 +316,7 @@ M.setup = function(opts)
     filetype = 'xit',
   }
 
-  local augroup = vim.api.nvim_create_augroup('xit_filetype', { clear = true })
-  vim.api.nvim_create_autocmd('BufRead,BufNewFile,BufReadPost', {
-    group = augroup,
-    pattern = '*.xit',
-    command = 'set filetype=xit',
-  })
-  vim.api.nvim_create_autocmd('FileType', {
-    group = augroup,
-    pattern = 'xit',
-    command = 'setlocal shiftwidth=4 softtabstop=4 expandtab',
-  })
-
+  local augroup = vim.api.nvim_create_augroup('xit_highlights_mappings', { clear = true })
   if not options.disable_default_highlights then
     set_highlighting()
     vim.api.nvim_create_autocmd('ColorScheme', {
