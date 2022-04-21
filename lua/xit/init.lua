@@ -1,4 +1,4 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
+local ts_utils = require('nvim-treesitter.ts_utils')
 
 local get_resolved_highlight_by_id
 get_resolved_highlight_by_id = function(id)
@@ -70,51 +70,74 @@ local set_highlighting = function()
 end
 
 local set_mappings = function(M, augroup, options)
-  local jump_between_all_tasks = { "task" }
-  local jump_between_open_and_ongoing_tasks = { "open_task", "ongoing_task" }
-  local jump_between = options.default_jump_group == 'all'
-    and jump_between_all_tasks
+  local jump_between_all_tasks = { 'task' }
+  local jump_between_open_and_ongoing_tasks = { 'open_task', 'ongoing_task' }
+  local jump_between = options.default_jump_group == 'all' and jump_between_all_tasks
     or jump_between_open_and_ongoing_tasks
 
   local toggle_jumps = function()
     if jump_between == jump_between_all_tasks then
       jump_between = jump_between_open_and_ongoing_tasks
-      print("Jumping toggled to open and ongoing tasks")
+      print('Jumping toggled to open and ongoing tasks')
     else
       jump_between = jump_between_all_tasks
-      print("Jumping toggled to all tasks")
+      print('Jumping toggled to all tasks')
     end
   end
 
   vim.api.nvim_create_autocmd('FileType', {
     group = augroup,
-    pattern = "xit",
+    pattern = 'xit',
     callback = function()
-      vim.keymap.set('n', '<C-n>', function() M.jump_to_next_task(options.wrap_jumps, jump_between) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-p>', function() M.jump_to_previous_task(options.wrap_jumps, jump_between) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-n>', function() M.jump_to_next_headline(options.wrap_jumps) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-p>', function() M.jump_to_previous_headline(options.wrap_jumps) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-t>', function() M.toggle_checkbox(false) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-t>', function() M.toggle_checkbox(true) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>n', function() M.create_new_task(false) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>N', function() M.create_new_task(true) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>m', function() M.create_new_headline(false) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>M', function() M.create_new_headline(true) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-n>', function()
+        M.jump_to_next_task(options.wrap_jumps, jump_between)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-p>', function()
+        M.jump_to_previous_task(options.wrap_jumps, jump_between)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-n>', function()
+        M.jump_to_next_headline(options.wrap_jumps)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-p>', function()
+        M.jump_to_previous_headline(options.wrap_jumps)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-t>', function()
+        M.toggle_checkbox(false)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<C-S-t>', function()
+        M.toggle_checkbox(true)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>n', function()
+        M.create_new_task(false)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>N', function()
+        M.create_new_task(true)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>m', function()
+        M.create_new_headline(false)
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>M', function()
+        M.create_new_headline(true)
+      end, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>t', toggle_jumps, { buffer = true, silent = true })
       vim.keymap.set('n', '<leader>x', M.delete_task, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>fo', function() M.filter_tasks({ "open_task", "ongoing_task" }) end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>fc', function() M.filter_tasks({ "checked_task" }) end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>fo', function()
+        M.filter_tasks({ 'open_task', 'ongoing_task' })
+      end, { buffer = true, silent = true })
+      vim.keymap.set('n', '<leader>fc', function()
+        M.filter_tasks({ 'checked_task' })
+      end, { buffer = true, silent = true })
       vim.keymap.set('i', '<CR>', M.create_new_task_in_insert_mode, { buffer = true, silent = true })
       vim.keymap.set('i', '<S-CR>', M.create_indented_line_in_insert_mode, { buffer = true, silent = true })
 
       if options.in_development then
         vim.keymap.set('n', '<leader>r', function()
           package.loaded['xit'] = nil
-          Xit = require'xit'
+          Xit = require('xit')
           -- TODO we could also clean-up the augroup and re-map the mappings etc.
         end, { buffer = true, silent = true })
       end
-    end
+    end,
   })
 end
 
@@ -123,7 +146,9 @@ local get_node_for_cursor = function(cursor)
     cursor = vim.api.nvim_win_get_cursor(0)
   end
   local root = ts_utils.get_root_for_position(unpack({ cursor[1] - 1, cursor[2] }))
-  if not root then return end
+  if not root then
+    return
+  end
   return root:named_descendant_for_range(cursor[1] - 1, cursor[2], cursor[1] - 1, cursor[2])
 end
 
@@ -136,7 +161,7 @@ local get_node_of_type = function(type, cursor)
 
   local root = ts_utils.get_root_for_node(node)
 
-  while (node ~= nil and node ~= root and node:type() ~= type) do
+  while node ~= nil and node ~= root and node:type() ~= type do
     node = node:parent()
   end
 
@@ -159,7 +184,8 @@ end
 local get_checkbox = function(task_node)
   if task_node:type() == 'task' then
     return task_node:child():child()
-  elseif task_node:type() == 'open_task'
+  elseif
+    task_node:type() == 'open_task'
     or task_node:type() == 'ongoing_task'
     or task_node:type() == 'checked_task'
     or task_node:type() == 'obsolete_task'
@@ -171,11 +197,11 @@ local get_checkbox = function(task_node)
 end
 
 local get_next_checkbox_status_char = function(checkbox_node, toogle_back)
-  if checkbox_node:type() == "open_checkbox" then
+  if checkbox_node:type() == 'open_checkbox' then
     return toogle_back and '~' or '@'
-  elseif checkbox_node:type() == "ongoing_checkbox" then
+  elseif checkbox_node:type() == 'ongoing_checkbox' then
     return toogle_back and ' ' or 'x'
-  elseif checkbox_node:type() == "checked_checkbox" then
+  elseif checkbox_node:type() == 'checked_checkbox' then
     return toogle_back and '@' or '~'
   else
     return toogle_back and 'x' or ' '
@@ -183,17 +209,14 @@ local get_next_checkbox_status_char = function(checkbox_node, toogle_back)
 end
 
 local find_next_task = function(current_task_node, start_line, end_line, types)
-  types = types or { "task" }
+  types = types or { 'task' }
 
   for i = start_line, end_line do
     local next_task = get_node_of_types(types, { i, 0 })
 
-    if next_task ~= nil
-      and (current_task_node == nil
-        or (next_task ~= current_task_node
-          and next_task:parent() ~= current_task_node
-        )
-      )
+    if
+      next_task ~= nil
+      and (current_task_node == nil or (next_task ~= current_task_node and next_task:parent() ~= current_task_node))
     then
       local checkbox_row = get_checkbox(next_task):range()
       vim.api.nvim_win_set_cursor(0, { checkbox_row + 1, 4 })
@@ -205,16 +228,16 @@ local find_next_task = function(current_task_node, start_line, end_line, types)
 end
 
 local find_previous_task = function(current_task_node, start_line, end_line, types)
-  types = types or { "task" }
+  types = types or { 'task' }
 
   for i = start_line, end_line, -1 do
     local previous_task = get_node_of_types(types, { i, 0 })
 
-    if previous_task ~= nil
-      and (current_task_node == nil
-        or (previous_task ~= current_task_node
-          and previous_task:parent() ~= current_task_node
-        )
+    if
+      previous_task ~= nil
+      and (
+        current_task_node == nil
+        or (previous_task ~= current_task_node and previous_task:parent() ~= current_task_node)
       )
     then
       local checkbox_row = get_checkbox(previous_task):range()
@@ -228,7 +251,7 @@ end
 
 local find_next_headline = function(current_headline_node, start_line, end_line)
   for i = start_line, end_line do
-    local next_headline = get_node_of_type("headline", { i, 0 })
+    local next_headline = get_node_of_type('headline', { i, 0 })
 
     if next_headline ~= nil and (current_headline_node == nil or next_headline ~= current_headline_node) then
       local headline_row = next_headline:range()
@@ -242,7 +265,7 @@ end
 
 local find_previous_headline = function(current_headline_node, start_line, end_line)
   for i = start_line, end_line, -1 do
-    local previous_headline = get_node_of_type("headline", { i, 0 })
+    local previous_headline = get_node_of_type('headline', { i, 0 })
 
     if previous_headline ~= nil and (current_headline_node == nil or previous_headline ~= current_headline_node) then
       local headline_row = previous_headline:range()
@@ -255,13 +278,13 @@ local find_previous_headline = function(current_headline_node, start_line, end_l
 end
 
 local insert_new_line = function()
-  local key = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
-  vim.api.nvim_feedkeys(key, "n", false)
+  local key = vim.api.nvim_replace_termcodes('<CR>', true, false, true)
+  vim.api.nvim_feedkeys(key, 'n', false)
 end
 
 local insert_new_indented_line = function()
-  local key = vim.api.nvim_replace_termcodes("<CR><Tab>", true, false, true)
-  vim.api.nvim_feedkeys(key, "n", false)
+  local key = vim.api.nvim_replace_termcodes('<CR><Tab>', true, false, true)
+  vim.api.nvim_feedkeys(key, 'n', false)
 end
 
 -----------------------
@@ -270,9 +293,9 @@ end
 local options = {
   disable_default_highlights = false,
   disable_default_mappings = false,
-  default_jump_group = "all", -- possible values: all, open_and_ongoing
+  default_jump_group = 'all', -- possible values: all, open_and_ongoing
   wrap_jumps = true,
-  in_development = false
+  in_development = false,
 }
 local configured = false
 local M = {}
@@ -281,35 +304,35 @@ M.setup = function(opts)
   options = vim.tbl_deep_extend('force', options, opts)
   configured = true
 
-  local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+  local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.xit = {
     install_info = {
-      url = "https://github.com/synaptiko/tree-sitter-xit",
-      files = { "src/parser.c" },
-      revision = "0.1",
+      url = 'https://github.com/synaptiko/tree-sitter-xit',
+      files = { 'src/parser.c' },
+      revision = '0.1',
       generate_requires_npm = false,
       requires_generate_from_grammar = false,
     },
-    filetype = "xit",
+    filetype = 'xit',
   }
 
-  local augroup = vim.api.nvim_create_augroup("xit_filetype", { clear = true })
-  vim.api.nvim_create_autocmd("BufRead,BufNewFile,BufReadPost", {
+  local augroup = vim.api.nvim_create_augroup('xit_filetype', { clear = true })
+  vim.api.nvim_create_autocmd('BufRead,BufNewFile,BufReadPost', {
     group = augroup,
-    pattern = "*.xit",
-    command = "set filetype=xit",
+    pattern = '*.xit',
+    command = 'set filetype=xit',
   })
   vim.api.nvim_create_autocmd('FileType', {
     group = augroup,
-    pattern = "xit",
-    command = "setlocal shiftwidth=4 softtabstop=4 expandtab",
+    pattern = 'xit',
+    command = 'setlocal shiftwidth=4 softtabstop=4 expandtab',
   })
 
   if not options.disable_default_highlights then
     set_highlighting()
     vim.api.nvim_create_autocmd('ColorScheme', {
       group = augroup,
-      callback = set_highlighting
+      callback = set_highlighting,
     })
   end
 
@@ -319,7 +342,7 @@ M.setup = function(opts)
 end
 
 M.toggle_checkbox = function(toggle_back)
-  local task_node = get_node_of_type("task")
+  local task_node = get_node_of_type('task')
 
   if task_node == nil then
     return
@@ -334,7 +357,7 @@ M.toggle_checkbox = function(toggle_back)
 end
 
 M.jump_to_next_task = function(wrap, types)
-  local current_task_node = get_node_of_type("task")
+  local current_task_node = get_node_of_type('task')
   local cursor = vim.api.nvim_win_get_cursor(0)
   local max_line = vim.api.nvim_buf_line_count(0)
   local found = find_next_task(current_task_node, cursor[1], max_line, types)
@@ -345,7 +368,7 @@ M.jump_to_next_task = function(wrap, types)
 end
 
 M.jump_to_previous_task = function(wrap, types)
-  local current_task_node = get_node_of_type("task")
+  local current_task_node = get_node_of_type('task')
   local cursor = vim.api.nvim_win_get_cursor(0)
   local found = find_previous_task(current_task_node, cursor[1], 0, types)
 
@@ -357,7 +380,7 @@ M.jump_to_previous_task = function(wrap, types)
 end
 
 M.jump_to_next_headline = function(wrap)
-  local current_headline_node = get_node_of_type("headline")
+  local current_headline_node = get_node_of_type('headline')
   local cursor = vim.api.nvim_win_get_cursor(0)
   local max_line = vim.api.nvim_buf_line_count(0)
   local found = find_next_headline(current_headline_node, cursor[1], max_line)
@@ -368,7 +391,7 @@ M.jump_to_next_headline = function(wrap)
 end
 
 M.jump_to_previous_headline = function(wrap)
-  local current_headline_node = get_node_of_type("headline")
+  local current_headline_node = get_node_of_type('headline')
   local cursor = vim.api.nvim_win_get_cursor(0)
   local found = find_previous_headline(current_headline_node, cursor[1], 0)
 
@@ -381,7 +404,7 @@ end
 
 M.create_new_task = function(before_current_task, stay_in_current_mode)
   local cursor = vim.api.nvim_win_get_cursor(0)
-  local current_task_node = get_node_of_type("task")
+  local current_task_node = get_node_of_type('task')
   local insertion_row
 
   if current_task_node ~= nil then
@@ -396,7 +419,7 @@ M.create_new_task = function(before_current_task, stay_in_current_mode)
     insertion_row = cursor[1] - (before_current_task and 1 or 0)
   end
 
-  vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { "[ ] " })
+  vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { '[ ] ' })
   vim.api.nvim_win_set_cursor(0, { insertion_row + 1, 4 })
   if not stay_in_current_mode then
     vim.cmd('startinsert!')
@@ -405,7 +428,7 @@ end
 
 M.create_new_headline = function(before_current_task, stay_in_current_mode)
   local cursor = vim.api.nvim_win_get_cursor(0)
-  local current_task_node = get_node_of_type("task")
+  local current_task_node = get_node_of_type('task')
   local insertion_row
 
   if current_task_node ~= nil then
@@ -420,7 +443,7 @@ M.create_new_headline = function(before_current_task, stay_in_current_mode)
     insertion_row = cursor[1] - (before_current_task and 1 or 0)
   end
 
-  vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { "", "" })
+  vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { '', '' })
   vim.api.nvim_win_set_cursor(0, { insertion_row + 2, 0 })
   if not stay_in_current_mode then
     vim.cmd('startinsert!')
@@ -435,18 +458,20 @@ M.create_new_task_in_insert_mode = function()
     insert_new_line()
   elseif current_column == last_column then
     local cursor = vim.api.nvim_win_get_cursor(0)
-    local current_node = get_node_of_type("headline") or get_node_of_type("task", { cursor[1], cursor[2] - 1 })
+    local current_node = get_node_of_type('headline') or get_node_of_type('task', { cursor[1], cursor[2] - 1 })
     local at_the_end_of_task = false
 
-    if current_node and current_node:type() == "task" then
+    if current_node and current_node:type() == 'task' then
       local _, _, end_row = current_node:range()
       at_the_end_of_task = end_row + 1 == cursor[1]
     end
 
-    if current_node and ((current_node:type() == "task" and at_the_end_of_task) or current_node:type() == "headline") then
+    if
+      current_node and ((current_node:type() == 'task' and at_the_end_of_task) or current_node:type() == 'headline')
+    then
       M.create_new_task(false, true)
     else
-      local other_line_node = get_node_of_type("other_line", { cursor[1], cursor[2] - 1 })
+      local other_line_node = get_node_of_type('other_line', { cursor[1], cursor[2] - 1 })
 
       if other_line_node == nil then
         insert_new_indented_line()
@@ -455,11 +480,11 @@ M.create_new_task_in_insert_mode = function()
       end
     end
   else
-    local current_node = get_node_of_type("task")
-    local other_line_node = get_node_of_type("other_line")
-    local indent_node = get_node_of_type("indent")
+    local current_node = get_node_of_type('task')
+    local other_line_node = get_node_of_type('other_line')
+    local indent_node = get_node_of_type('indent')
 
-    if (current_node and current_node:type() == "task" and (other_line_node == nil or indent_node)) then
+    if current_node and current_node:type() == 'task' and (other_line_node == nil or indent_node) then
       insert_new_indented_line()
     else
       insert_new_line()
@@ -475,13 +500,13 @@ M.create_indented_line_in_insert_mode = function()
     local cursor = vim.api.nvim_win_get_cursor(0)
     local insertion_row = cursor[1]
 
-    vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { "    " })
+    vim.api.nvim_buf_set_lines(0, insertion_row, insertion_row, false, { '    ' })
     vim.api.nvim_win_set_cursor(0, { insertion_row + 1, 4 })
   else
-    local current_node = get_node_of_type("task")
-    local other_line_node = get_node_of_type("other_line")
+    local current_node = get_node_of_type('task')
+    local other_line_node = get_node_of_type('other_line')
 
-    if (current_node and current_node:type() == "task" and other_line_node == nil) then
+    if current_node and current_node:type() == 'task' and other_line_node == nil then
       insert_new_indented_line()
     else
       insert_new_line()
@@ -490,13 +515,13 @@ M.create_indented_line_in_insert_mode = function()
 end
 
 M.delete_task = function()
-  local current_task_node = get_node_of_type("task")
+  local current_task_node = get_node_of_type('task')
 
   if current_task_node ~= nil then
     local start_row, _, end_row = current_task_node:range()
     vim.api.nvim_buf_set_lines(0, start_row, end_row + 1, false, {})
   else
-    print("No task found under the cursor")
+    print('No task found under the cursor')
   end
 end
 
@@ -505,12 +530,12 @@ M.filter_tasks = function(types)
   local tasks_to_remove = {}
 
   if types == nil then
-    types = { "open_task", "ongoing_task" }
+    types = { 'open_task', 'ongoing_task' }
   end
 
   -- 1. eliminate tasks
   for node in root:iter_children() do
-    if node:type() == "task" then
+    if node:type() == 'task' then
       local task_type = node:child():type()
       local match = false
 
@@ -573,7 +598,7 @@ M.filter_tasks = function(types)
 end
 
 M.is_configured = function()
-   return configured
+  return configured
 end
 
 return M
