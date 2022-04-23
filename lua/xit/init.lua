@@ -129,14 +129,6 @@ local set_mappings = function(M, augroup, options)
       end, { buffer = true, silent = true })
       vim.keymap.set('i', '<CR>', M.create_new_task_in_insert_mode, { buffer = true, silent = true })
       vim.keymap.set('i', '<S-CR>', M.create_indented_line_in_insert_mode, { buffer = true, silent = true })
-
-      if options.in_development then
-        vim.keymap.set('n', '<leader>r', function()
-          package.loaded['xit'] = nil
-          Xit = require('xit')
-          -- TODO we could also clean-up the augroup and re-map the mappings etc.
-        end, { buffer = true, silent = true })
-      end
     end,
   })
 end
@@ -295,7 +287,6 @@ local options = {
   disable_default_mappings = false,
   default_jump_group = 'all', -- possible values: all, open_and_ongoing
   wrap_jumps = true,
-  in_development = false,
 }
 local configured = false
 local M = {}
