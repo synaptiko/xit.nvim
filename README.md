@@ -124,11 +124,11 @@ XitObsoleteTaskPriority
 
 ##### Custom keymaps
 
-If you want to configure them on your own, feel free to use `disable_default_mappings = true` and use [any function exported by `xit` module](./lua/xit.init.lua) (at the bottom of the file, look for `M.* = function` lines).
+If you want to configure them on your own, feel free to use `disable_default_mappings = true` and use [any function exported by `xit` module](./lua/xit/init.lua) (at the bottom of the file, look for `M.* = function` lines).
 
 ## Roadmap
 
-See also [Roadmap.xit](./Roadmap.xit).
+See also [roadmap.xit](./roadmap.xit).
 
 ### 0.1 (Released)
 
@@ -166,4 +166,4 @@ If you are an experienced neovim plugin author or lua developer, I welcome your 
 
 There is also a discussion thread about this plugin: https://github.com/jotaen/xit/discussions/26
 
-You can also check [recommended learning resources](./LearningResources.md) and [ideas](./Ideas.md).
+You can also check [recommended learning resources](./learning-resources.md) and [ideas](./ideas.md).
