@@ -135,11 +135,11 @@ Basic functionality and the plugin is ready for daily usage.
 
 ### 0.2 (WIP)
 
-Support for tags syntax highlighting and filtering tasks by tags.
+Investigate divider support (and if it will need spec change and `tree-sitter-xit` support).
 
 ### 0.3
 
-Support for due dates syntax highlighting and filtering tasks by the date.
+Use floating windows to show filtered results. Interactive filtering capabilities.
 
 ### 0.4
 
@@ -147,11 +147,11 @@ Write tests and add better mappings configuration. Add task sorting capabilities
 
 ### 0.5
 
-Use floating windows to show filtered results. Interactive filtering capabilities.
+Support for tags syntax highlighting and filtering tasks by tags.
 
 ### 0.6
 
-Investigate divider support (will need spec. change and `tree-sitter-xit` support).
+Support for due dates syntax highlighting and filtering tasks by the date.
 
 ### 1.0
 
