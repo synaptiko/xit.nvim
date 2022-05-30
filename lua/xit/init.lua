@@ -40,9 +40,13 @@ local set_highlighting = function()
   headlineHighlight.underline = true
   headlineHighlight.bold = true
   openCheckboxHighlight.bold = true
+  openHighlight.bold = nil
+  ongoingHighlight.bold = true
   priorityHighlight.bold = true
   checkedHighlight.italic = nil
+  checkedHighlight.bold = nil
   obsoleteHighlight.italic = nil
+  obsoleteHighlight.bold = nil
   obsoleteStrikedHighlight.italic = nil
   obsoleteStrikedHighlight.strikethrough = true
 
