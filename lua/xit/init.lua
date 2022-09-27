@@ -296,6 +296,7 @@ local configured = false
 local M = {}
 
 M.setup = function(opts)
+  opts = opts or {}
   options = vim.tbl_deep_extend('force', options, opts)
   configured = true
 
