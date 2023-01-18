@@ -141,6 +141,7 @@ local get_checkbox = function(task_node)
     or task_node:type() == 'ongoing_task'
     or task_node:type() == 'checked_task'
     or task_node:type() == 'obsolete_task'
+    or task_node:type() == 'in_question_task'
   then
     return task_node:child()
   else
@@ -155,8 +156,10 @@ local get_next_checkbox_status_char = function(checkbox_node, toogle_back)
     return toogle_back and ' ' or 'x'
   elseif checkbox_node:type() == 'checked_checkbox' then
     return toogle_back and '@' or '~'
+  elseif checkbox_node:type() == 'obsolete_checkbox' then
+    return toogle_back and '~' or '?'
   else
-    return toogle_back and 'x' or ' '
+    return toogle_back and '?' or ' '
   end
 end
 
