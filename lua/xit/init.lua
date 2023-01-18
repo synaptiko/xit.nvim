@@ -1,27 +1,32 @@
 local ts_utils = require('nvim-treesitter.ts_utils')
 
 local set_highlighting = function()
-  vim.api.nvim_set_hl(0, 'XitHeadline', { underline = true, bold = true, link = 'Normal' })
+  vim.api.nvim_set_hl(0, '@XitHeadline', { underline = true, bold = true, link = 'Normal' })
 
-  vim.api.nvim_set_hl(0, 'XitOpenCheckbox', { bold = true, link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'XitOpenTaskMainLine', { bold = false, link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'XitOpenTaskOtherLine', { bold = false, link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'XitOpenTaskPriority', { bold = true, link = 'ErrorMsg' })
+  vim.api.nvim_set_hl(0, '@XitOpenCheckbox', { bold = true, link = 'Normal' })
+  vim.api.nvim_set_hl(0, '@XitOpenTaskMainLine', { bold = false, link = 'Normal' })
+  vim.api.nvim_set_hl(0, '@XitOpenTaskOtherLine', { bold = false, link = 'Normal' })
+  vim.api.nvim_set_hl(0, '@XitOpenTaskPriority', { bold = true, link = 'ErrorMsg' })
 
-  vim.api.nvim_set_hl(0, 'XitOngoingCheckbox', { bold = true, link = 'MoreMsg' })
-  vim.api.nvim_set_hl(0, 'XitOngoingTaskMainLine', { bold = true, link = 'MoreMsg' })
-  vim.api.nvim_set_hl(0, 'XitOngoingTaskOtherLine', { bold = true, link = 'MoreMsg' })
-  vim.api.nvim_set_hl(0, 'XitOngoingTaskPriority', { bold = true, link = 'ErrorMsg' })
+  vim.api.nvim_set_hl(0, '@XitOngoingCheckbox', { bold = true, link = 'MoreMsg' })
+  vim.api.nvim_set_hl(0, '@XitOngoingTaskMainLine', { bold = true, link = 'MoreMsg' })
+  vim.api.nvim_set_hl(0, '@XitOngoingTaskOtherLine', { bold = true, link = 'MoreMsg' })
+  vim.api.nvim_set_hl(0, '@XitOngoingTaskPriority', { bold = true, link = 'ErrorMsg' })
 
-  vim.api.nvim_set_hl(0, 'XitCheckedCheckbox', { bold = false, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, 'XitCheckedTaskMainLine', { bold = false, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, 'XitCheckedTaskOtherLine', { bold = false, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, 'XitCheckedTaskPriority', { bold = false, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitCheckedCheckbox', { bold = false, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitCheckedTaskMainLine', { bold = false, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitCheckedTaskOtherLine', { bold = false, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitCheckedTaskPriority', { bold = false, italic = false, link = 'Comment' })
 
-  vim.api.nvim_set_hl(0, 'XitObsoleteCheckbox', { strikethrough = true, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, 'XitObsoleteTaskMainLine', { strikethrough = true, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, 'XitObsoleteTaskOtherLine', { strikethrough = true, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, 'XitObsoleteTaskPriority', { strikethrough = true, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitObsoleteCheckbox', { strikethrough = true, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitObsoleteTaskMainLine', { strikethrough = true, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitObsoleteTaskOtherLine', { strikethrough = true, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitObsoleteTaskPriority', { strikethrough = true, italic = false, link = 'Comment' })
+
+  vim.api.nvim_set_hl(0, '@XitInQuestionCheckbox', { strikethrough = true, italic = false, link = 'Character' })
+  vim.api.nvim_set_hl(0, '@XitInQuestionTaskMainLine', { strikethrough = true, italic = false, link = 'Character' })
+  vim.api.nvim_set_hl(0, '@XitInQuestionTaskOtherLine', { strikethrough = true, italic = false, link = 'Character' })
+  vim.api.nvim_set_hl(0, '@XitInQuestionTaskPriority', { strikethrough = true, italic = false, link = 'Character' })
 end
 
 local set_mappings = function(M, augroup, options)
@@ -254,9 +259,9 @@ M.setup = function(opts)
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.xit = {
     install_info = {
-      url = 'https://github.com/synaptiko/tree-sitter-xit',
+      url = 'https://github.com/felipesere/tree-sitter-xit',
       files = { 'src/parser.c' },
-      revision = '0.1',
+      revision = 'master',
       generate_requires_npm = false,
       requires_generate_from_grammar = false,
     },
