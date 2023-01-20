@@ -1,32 +1,75 @@
 local ts_utils = require('nvim-treesitter.ts_utils')
+local get_resolved_highlight_by_id
+get_resolved_highlight_by_id = function(id)
+  local result = {}
+  local main_highlight = vim.api.nvim_get_hl_by_id(id, true)
+
+  if main_highlight[true] then
+    local linked_id = main_highlight[true]
+    local linked_highlight = get_resolved_highlight_by_id(linked_id)
+
+    for key, value in pairs(linked_highlight) do
+      result[key] = value
+    end
+
+    main_highlight[true] = nil
+  end
+
+  for key, value in pairs(main_highlight) do
+    result[key] = value
+  end
+
+  return result
+end
+
+local get_resolved_highlight_by_name = function(name)
+  return get_resolved_highlight_by_id(vim.api.nvim_get_hl_id_by_name(name))
+end
 
 local set_highlighting = function()
-  vim.api.nvim_set_hl(0, '@XitHeadline', { underline = true, bold = true, link = 'Normal' })
+  local headlineHighlight = get_resolved_highlight_by_name('Normal')
+  local openHighlight = get_resolved_highlight_by_name('Normal')
+  local openCheckboxHighlight = get_resolved_highlight_by_name('Normal')
+  local ongoingHighlight = get_resolved_highlight_by_name('MoreMsg')
+  local checkedHighlight = get_resolved_highlight_by_name('Comment')
+  local obsoleteHighlight = get_resolved_highlight_by_name('Comment')
+  local obsoleteStrikedHighlight = get_resolved_highlight_by_name('Comment')
+  local priorityHighlight = get_resolved_highlight_by_name('ErrorMsg')
 
-  vim.api.nvim_set_hl(0, '@XitOpenCheckbox', { bold = true, link = 'Normal' })
-  vim.api.nvim_set_hl(0, '@XitOpenTaskMainLine', { bold = false, link = 'Normal' })
-  vim.api.nvim_set_hl(0, '@XitOpenTaskOtherLine', { bold = false, link = 'Normal' })
-  vim.api.nvim_set_hl(0, '@XitOpenTaskPriority', { bold = true, link = 'ErrorMsg' })
+  headlineHighlight.underline = true
+  headlineHighlight.bold = true
+  openCheckboxHighlight.bold = true
+  openHighlight.bold = nil
+  ongoingHighlight.bold = true
+  priorityHighlight.bold = true
+  checkedHighlight.italic = nil
+  checkedHighlight.bold = nil
+  obsoleteHighlight.italic = nil
+  obsoleteHighlight.bold = nil
+  obsoleteStrikedHighlight.italic = nil
+  obsoleteStrikedHighlight.strikethrough = true
 
-  vim.api.nvim_set_hl(0, '@XitOngoingCheckbox', { bold = true, link = 'MoreMsg' })
-  vim.api.nvim_set_hl(0, '@XitOngoingTaskMainLine', { bold = true, link = 'MoreMsg' })
-  vim.api.nvim_set_hl(0, '@XitOngoingTaskOtherLine', { bold = true, link = 'MoreMsg' })
-  vim.api.nvim_set_hl(0, '@XitOngoingTaskPriority', { bold = true, link = 'ErrorMsg' })
+  vim.api.nvim_set_hl(0, '@XitHeadline', headlineHighlight)
 
-  vim.api.nvim_set_hl(0, '@XitCheckedCheckbox', { bold = false, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, '@XitCheckedTaskMainLine', { bold = false, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, '@XitCheckedTaskOtherLine', { bold = false, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, '@XitCheckedTaskPriority', { bold = false, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitOpenCheckbox', openCheckboxHighlight)
+  vim.api.nvim_set_hl(0, '@XitOpenTaskMainLine', openHighlight)
+  vim.api.nvim_set_hl(0, '@XitOpenTaskOtherLine', openHighlight)
+  vim.api.nvim_set_hl(0, '@XitOpenTaskPriority', priorityHighlight)
 
-  vim.api.nvim_set_hl(0, '@XitObsoleteCheckbox', { strikethrough = true, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, '@XitObsoleteTaskMainLine', { strikethrough = true, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, '@XitObsoleteTaskOtherLine', { strikethrough = true, italic = false, link = 'Comment' })
-  vim.api.nvim_set_hl(0, '@XitObsoleteTaskPriority', { strikethrough = true, italic = false, link = 'Comment' })
+  vim.api.nvim_set_hl(0, '@XitOngoingCheckbox', ongoingHighlight)
+  vim.api.nvim_set_hl(0, '@XitOngoingTaskMainLine', ongoingHighlight)
+  vim.api.nvim_set_hl(0, '@XitOngoingTaskOtherLine', ongoingHighlight)
+  vim.api.nvim_set_hl(0, '@XitOngoingTaskPriority', priorityHighlight)
 
-  vim.api.nvim_set_hl(0, '@XitInQuestionCheckbox', { strikethrough = true, italic = false, link = 'Character' })
-  vim.api.nvim_set_hl(0, '@XitInQuestionTaskMainLine', { strikethrough = true, italic = false, link = 'Character' })
-  vim.api.nvim_set_hl(0, '@XitInQuestionTaskOtherLine', { strikethrough = true, italic = false, link = 'Character' })
-  vim.api.nvim_set_hl(0, '@XitInQuestionTaskPriority', { strikethrough = true, italic = false, link = 'Character' })
+  vim.api.nvim_set_hl(0, '@XitCheckedCheckbox', checkedHighlight)
+  vim.api.nvim_set_hl(0, '@XitCheckedTaskMainLine', checkedHighlight)
+  vim.api.nvim_set_hl(0, '@XitCheckedTaskOtherLine', checkedHighlight)
+  vim.api.nvim_set_hl(0, '@XitCheckedTaskPriority', checkedHighlight)
+
+  vim.api.nvim_set_hl(0, '@XitObsoleteCheckbox', obsoleteHighlight)
+  vim.api.nvim_set_hl(0, '@XitObsoleteTaskMainLine', obsoleteStrikedHighlight)
+  vim.api.nvim_set_hl(0, '@XitObsoleteTaskOtherLine', obsoleteStrikedHighlight)
+  vim.api.nvim_set_hl(0, '@XitObsoleteTaskPriority', obsoleteStrikedHighlight)
 end
 
 local set_mappings = function(M, augroup, options)
