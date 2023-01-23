@@ -35,6 +35,7 @@ local set_highlighting = function()
   local obsoleteHighlight = get_resolved_highlight_by_name('Comment')
   local obsoleteStrikedHighlight = get_resolved_highlight_by_name('Comment')
   local priorityHighlight = get_resolved_highlight_by_name('ErrorMsg')
+  local inquestionHighlight = get_resolved_highlight_by_name('Character')
 
   headlineHighlight.underline = true
   headlineHighlight.bold = true
@@ -48,6 +49,7 @@ local set_highlighting = function()
   obsoleteHighlight.bold = nil
   obsoleteStrikedHighlight.italic = nil
   obsoleteStrikedHighlight.strikethrough = true
+  inquestionHighlight.strikethrough = nil
 
   vim.api.nvim_set_hl(0, '@XitHeadline', headlineHighlight)
 
@@ -70,6 +72,11 @@ local set_highlighting = function()
   vim.api.nvim_set_hl(0, '@XitObsoleteTaskMainLine', obsoleteStrikedHighlight)
   vim.api.nvim_set_hl(0, '@XitObsoleteTaskOtherLine', obsoleteStrikedHighlight)
   vim.api.nvim_set_hl(0, '@XitObsoleteTaskPriority', obsoleteStrikedHighlight)
+
+  vim.api.nvim_set_hl(0, '@XitInQuestionCheckbox', inquestionHighlight)
+  vim.api.nvim_set_hl(0, '@XitInQuestionTaskMainLine', inquestionHighlight)
+  vim.api.nvim_set_hl(0, '@XitInQuestionTaskOtherLine', inquestionHighlight)
+  vim.api.nvim_set_hl(0, '@XitInQuestionTaskPriority', inquestionHighlight)
 end
 
 local set_mappings = function(M, augroup, options)
