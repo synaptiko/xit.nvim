@@ -95,50 +95,33 @@ local set_mappings = function(M, augroup, options)
     end
   end
 
+  local names_interactions = {
+    toggle_checkbox = function() M.toggle_checkbox(false) end,
+    toggle_checkbox_reverse = function() M.toggle_checkbox(true) end,
+    jump_to_next_task = function() M.jump_to_next_task(options.wrap_jumps, jump_between) end,
+    jump_to_previous_task = function() M.jump_to_previous_task(options.wrap_jumps, jump_between) end,
+    jump_to_next_headline = function() M.jump_to_next_headline(options.wrap_jumps) end,
+    jump_to_previous_headline = function() M.jump_to_previous_headline(options.wrap_jumps) end,
+    create_new_task_before = function() M.create_new_task(true) end,
+    create_new_task_after = function() M.create_new_task(false) end,
+    create_new_headline_before = function() M.create_new_headline(true) end,
+    create_new_headline_after = function() M.create_new_headline(false) end,
+    toggle_jumps = toggle_jumps,
+    delete_task = M.delete_task,
+    filter_open_ongoing_tasks = function() M.filter_tasks({ 'open_task', 'ongoing_task' }) end,
+    filter_checked_tasks = function() M.filter_tasks({ 'checked_task' }) end,
+  }
+
   vim.api.nvim_create_autocmd('FileType', {
     group = augroup,
     pattern = 'xit',
     callback = function()
-      vim.keymap.set('n', '<C-n>', function()
-        M.jump_to_next_task(options.wrap_jumps, jump_between)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-p>', function()
-        M.jump_to_previous_task(options.wrap_jumps, jump_between)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-n>', function()
-        M.jump_to_next_headline(options.wrap_jumps)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-p>', function()
-        M.jump_to_previous_headline(options.wrap_jumps)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-t>', function()
-        M.toggle_checkbox(false)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<C-S-t>', function()
-        M.toggle_checkbox(true)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>n', function()
-        M.create_new_task(false)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>N', function()
-        M.create_new_task(true)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>m', function()
-        M.create_new_headline(false)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>M', function()
-        M.create_new_headline(true)
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>t', toggle_jumps, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>x', M.delete_task, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>fo', function()
-        M.filter_tasks({ 'open_task', 'ongoing_task' })
-      end, { buffer = true, silent = true })
-      vim.keymap.set('n', '<leader>fc', function()
-        M.filter_tasks({ 'checked_task' })
-      end, { buffer = true, silent = true })
-      vim.keymap.set('i', '<CR>', M.create_new_task_in_insert_mode, { buffer = true, silent = true })
-      vim.keymap.set('i', '<S-CR>', M.create_indented_line_in_insert_mode, { buffer = true, silent = true })
+      for key_strokes, interaction in pairs(options.keymaps or {}) do
+        local f = names_interactions[interaction]
+        if f ~= nil then
+          vim.keymap.set('n', key_strokes, f, { buffer = true, silent = true })
+        end
+      end
     end,
   })
 end
