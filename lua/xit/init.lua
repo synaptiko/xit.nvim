@@ -283,6 +283,22 @@ local options = {
   disable_default_mappings = false,
   default_jump_group = 'all', -- possible values: all, open_and_ongoing
   wrap_jumps = true,
+  keymaps = {
+    ['<C-n>'] = 'jump_to_next_task',
+    ['<C-p>'] = 'jump_to_previous_task',
+    ['<C-S-n>'] = 'jump_to_next_headline',
+    ['<C-S-p>'] = 'jump_to_previous_headline',
+    ['<C-t>'] = 'toggle_checkbox',
+    ['<C-S-t>'] = 'toggle_checkbox_reverse',
+    ['<leader>n'] = 'create_new_task_after',
+    ['<leader>N'] = 'create_new_task_before',
+    ['<leader>m'] = 'create_new_headline_after',
+    ['<leader>M'] = 'create_new_headline_before',
+    ['<leader>t'] = 'toggle_jumps',
+    ['<leader>x'] = 'delete_task',
+    ['<leader>fo'] = 'filter_open_ongoing_tasks',
+    ['<leader>fc'] = 'filter_checked_tasks',
+  },
 }
 local configured = false
 local M = {}
