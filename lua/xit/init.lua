@@ -96,20 +96,44 @@ local set_mappings = function(M, augroup, options)
   end
 
   local names_interactions = {
-    toggle_checkbox = function() M.toggle_checkbox(false) end,
-    toggle_checkbox_reverse = function() M.toggle_checkbox(true) end,
-    jump_to_next_task = function() M.jump_to_next_task(options.wrap_jumps, jump_between) end,
-    jump_to_previous_task = function() M.jump_to_previous_task(options.wrap_jumps, jump_between) end,
-    jump_to_next_headline = function() M.jump_to_next_headline(options.wrap_jumps) end,
-    jump_to_previous_headline = function() M.jump_to_previous_headline(options.wrap_jumps) end,
-    create_new_task_before = function() M.create_new_task(true) end,
-    create_new_task_after = function() M.create_new_task(false) end,
-    create_new_headline_before = function() M.create_new_headline(true) end,
-    create_new_headline_after = function() M.create_new_headline(false) end,
+    toggle_checkbox = function()
+      M.toggle_checkbox(false)
+    end,
+    toggle_checkbox_reverse = function()
+      M.toggle_checkbox(true)
+    end,
+    jump_to_next_task = function()
+      M.jump_to_next_task(options.wrap_jumps, jump_between)
+    end,
+    jump_to_previous_task = function()
+      M.jump_to_previous_task(options.wrap_jumps, jump_between)
+    end,
+    jump_to_next_headline = function()
+      M.jump_to_next_headline(options.wrap_jumps)
+    end,
+    jump_to_previous_headline = function()
+      M.jump_to_previous_headline(options.wrap_jumps)
+    end,
+    create_new_task_before = function()
+      M.create_new_task(true)
+    end,
+    create_new_task_after = function()
+      M.create_new_task(false)
+    end,
+    create_new_headline_before = function()
+      M.create_new_headline(true)
+    end,
+    create_new_headline_after = function()
+      M.create_new_headline(false)
+    end,
     toggle_jumps = toggle_jumps,
     delete_task = M.delete_task,
-    filter_open_ongoing_tasks = function() M.filter_tasks({ 'open_task', 'ongoing_task' }) end,
-    filter_checked_tasks = function() M.filter_tasks({ 'checked_task' }) end,
+    filter_open_ongoing_tasks = function()
+      M.filter_tasks({ 'open_task', 'ongoing_task' })
+    end,
+    filter_checked_tasks = function()
+      M.filter_tasks({ 'checked_task' })
+    end,
   }
 
   vim.api.nvim_create_autocmd('FileType', {
@@ -283,6 +307,22 @@ local options = {
   disable_default_mappings = false,
   default_jump_group = 'all', -- possible values: all, open_and_ongoing
   wrap_jumps = true,
+  keymaps = {
+    ['<C-n>'] = 'jump_to_next_task',
+    ['<C-p>'] = 'jump_to_previous_task',
+    ['<C-S-n>'] = 'jump_to_next_headline',
+    ['<C-S-p>'] = 'jump_to_previous_headline',
+    ['<C-t>'] = 'toggle_checkbox',
+    ['<C-S-t>'] = 'toggle_checkbox_reverse',
+    ['<leader>n'] = 'create_new_task_after',
+    ['<leader>N'] = 'create_new_task_before',
+    ['<leader>m'] = 'create_new_headline_after',
+    ['<leader>M'] = 'create_new_headline_before',
+    ['<leader>t'] = 'toggle_jumps',
+    ['<leader>x'] = 'delete_task',
+    ['<leader>fo'] = 'filter_open_ongoing_tasks',
+    ['<leader>fc'] = 'filter_checked_tasks',
+  },
 }
 local configured = false
 local M = {}
